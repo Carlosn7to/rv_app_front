@@ -1,0 +1,40 @@
+/*
+  Buttons
+ */
+
+@mixin btn-age {
+  width: 100%;
+  background-color: #fff;
+  color: #fa8a0c;
+  border-radius: 5px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid #fa8a0c;
+  padding: 10px;
+  transition: .3s ease-in-out;
+
+    &:hover {
+      background-color: #fa8a0c;
+      color: #fff;
+    }
+}
+
+/*
+  Super classes
+ */
+
+@mixin container($wd, $hg, $pd, $back) {
+  width: $wd;
+  height: $hg;
+  padding: $pd;
+  background-color: $back;
+}
+
+@mixin flex($type, $just, $align, $gap) {
+  display: flex;
+  flex-direction: $type;
+  justify-content: $just;
+  align-items: $align;
+  gap: $gap;
+}
