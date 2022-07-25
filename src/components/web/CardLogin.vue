@@ -19,6 +19,7 @@
 <script>
 
 import {AXIOS} from "../../../services/api.ts";
+import Cookie from "js-cookie";
 
 export default {
   name: "CardLogin",
@@ -36,8 +37,6 @@ export default {
         password: this.password
       }
 
-      console.log(payload)
-
       AXIOS({
         method: "POST",
         url: "login",
@@ -48,7 +47,8 @@ export default {
         data: JSON.stringify(payload)
       })
           .then((res) => {
-            console.log(res)
+            Cookie.set('rv_token', res.data.access_token)
+            this.$router.replace('/home')
           })
 
 

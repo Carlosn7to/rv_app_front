@@ -1,11 +1,20 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+//import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory} from 'vue-router'
 import LoginPage from "@/views/web/LoginPage";
+import HomePage from "@/views/app/HomePage";
+import Guard from "../../services/middleware/Auth";
 
 const routes = [
   {
     path: '/',
     name: 'LoginPage',
     component: LoginPage
+  },
+  {
+    path: '/home',
+    name: 'HomePage',
+    component: HomePage,
+    beforeEnter: Guard.auth
   }
   // {
   //   path: '/about',
@@ -15,7 +24,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes
 })
 
