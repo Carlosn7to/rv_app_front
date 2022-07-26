@@ -7,7 +7,7 @@
       <nav>
         <ul class="href-menu">
           <span>Ações</span>
-          <router-link to="/home" exact-active-class="">
+          <router-link to="/home">
             <li>
               <div></div>
               <div>
@@ -16,7 +16,7 @@
               <span>Home</span>
             </li>
           </router-link>
-          <router-link to="/minhas-vendas" exact-active-class="">
+          <router-link to="/minhas-vendas">
             <li>
               <div></div>
               <div>
@@ -28,7 +28,7 @@
         </ul>
           <ul class="href-menu">
             <span>Ações</span>
-            <router-link to="/gerenciamento" exact-active-class="">
+            <router-link to="/gerenciamento">
               <li>
                 <div></div>
                 <div>

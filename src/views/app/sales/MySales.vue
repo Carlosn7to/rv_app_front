@@ -1,7 +1,10 @@
 <template>
+
   <div id="container">
     <MenuMain/>
+
   </div>
+
 </template>
 
 <script>
@@ -9,15 +12,13 @@
 import MenuMain from "@/components/app/MenuMain";
 
 export default {
-  name: "HomePage",
+  name: "MySales",
   components: {
     MenuMain
   }
 }
 </script>
 
-<style scoped lang="scss">
-
-
+<style scoped>
 
 </style>

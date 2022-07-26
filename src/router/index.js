@@ -3,6 +3,7 @@ import { createRouter, createWebHistory} from 'vue-router'
 import LoginPage from "@/views/web/LoginPage";
 import HomePage from "@/views/app/HomePage";
 import Guard from "../../services/middleware/Auth";
+import MySales from "@/views/app/sales/MySales";
 
 const routes = [
   {
@@ -15,12 +16,13 @@ const routes = [
     name: 'HomePage',
     component: HomePage,
     beforeEnter: Guard.auth
+  },
+  {
+    path: '/minhas-vendas',
+    name: 'MySales',
+    component: MySales,
+    beforeEnter: Guard.auth
   }
-  // {
-  //   path: '/about',
-  //   name: 'about',
-  //   component: () => import( '../views/AboutView.vue')
-  // }
 ]
 
 const router = createRouter({

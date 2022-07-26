@@ -71,6 +71,11 @@ html {
   width: 100vw;
   height: 100vh;
   background-color: $background;
+
+  #container {
+    @include container(100%, 100%, 0, $background)
+  }
+
 }
 
 </style>
