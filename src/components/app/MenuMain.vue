@@ -1,12 +1,16 @@
 <template>
-  <div id="menu">
+  <div class="menu" :class="{ menuOff : menu}">
     <div id="logo-company">
       <img :src="require('@/assets/company/logo_azul_laranja.png')" alt="logo-age">
+      <div id="menu-hamb" @click="alterMenu()">
+        <i class="fi fi-rr-angle-small-left"></i>
+        <i class="fi fi-rr-menu-burger"></i>
+      </div>
     </div>
     <div id="content-menu">
       <nav>
         <ul class="href-menu">
-          <span>Ações</span>
+          <span>Principal</span>
           <router-link to="/home">
             <li>
               <div></div>
@@ -26,27 +30,39 @@
             </li>
           </router-link>
         </ul>
-          <ul class="href-menu">
-            <span>Ações</span>
-            <router-link to="/gerenciamento">
-              <li>
-                <div></div>
-                <div>
-                  <i class="fi fi-rr-settings-sliders"></i>
-                </div>
-                <span>Gerenciamento</span>
-              </li>
-            </router-link>
-            <router-link to="/logout">
-              <li>
-                <div></div>
-                <div>
-                  <i class="fi fi-rr-sign-out-alt"></i>
-                </div>
-                <span>Logout</span>
-              </li>
-            </router-link>
-          </ul>
+        <ul class="href-menu">
+          <span>Supervisão</span>
+          <router-link to="/vendas">
+            <li>
+              <div></div>
+              <div>
+                <i class="fi fi-rr-chat-arrow-grow"></i>
+              </div>
+              <span>Vendas</span>
+            </li>
+          </router-link>
+        </ul>
+        <ul class="href-menu">
+          <span>Ações</span>
+          <router-link to="/gerenciamento">
+            <li>
+              <div></div>
+              <div>
+                <i class="fi fi-rr-settings-sliders"></i>
+              </div>
+              <span>Gerenciamento</span>
+            </li>
+          </router-link>
+          <router-link to="/logout">
+            <li>
+              <div></div>
+              <div>
+                <i class="fi fi-rr-sign-out-alt"></i>
+              </div>
+              <span>Logout</span>
+            </li>
+          </router-link>
+        </ul>
       </nav>
     </div>
 
@@ -55,24 +71,58 @@
 
 <script>
 export default {
-  name: "MenuMain"
+  name: "MenuMain",
+  data () {
+    return {
+        menu: false
+    }
+  },
+  methods: {
+    alterMenu: function () {
+      if(this.menu === false) {
+        this.menu = true
+      }else {
+        this.menu = false
+      }
+    }
+  }
 }
 </script>
 
 <style scoped lang="scss">
 
-  #menu {
-    @include container(17%, 100%, 0, #FFF);
+  .menu {
+    @include container(22%, 100%, 0, #FFF);
     border-right: 2px solid #cccccc90;
+    @include transtion;
+    white-space: nowrap;
 
     #logo-company {
-        @include container(100%, 10%, 0, #fff);
-        @include flex(row, center, center, 0);
+        @include container(100%, 10%, 0 2vw, #fff);
+        @include flex(row, space-between, center, 0);
         border-bottom: 2px solid $border;
 
         img {
-          width: 35%;
+          width: 50%;
           height: auto;
+        }
+
+        #menu-hamb {
+          color: $i-menu;
+          font-size: 2rem;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          @include transtion;
+
+          i:nth-child(1) {
+            font-size: 1.6rem;
+            padding-bottom: .1rem;
+          }
+
+          &:hover {
+            opacity: .8;
+          }
         }
       }
 
@@ -95,6 +145,7 @@ export default {
             font-weight: 600;
             letter-spacing: .2px;
             font-size: 1.2rem;
+            @include transtion
           }
 
           li {
@@ -186,5 +237,62 @@ export default {
     }
 
   }
+
+  .menuOff {
+    width: 5%;
+    background-color: transparent;
+    border-right: none;
+
+    #logo-company {
+      padding: 0;
+      justify-content: center;
+      background-color: transparent;
+      border-bottom: none;
+
+      img {
+        display: none;
+      }
+
+      #menu-hamb {
+
+        i:nth-child(1) {
+          display: none;
+        }
+
+      }
+    }
+
+    #content-menu {
+      display: none;
+
+      nav {
+
+        .href-menu {
+          padding: 0;
+
+          li {
+            padding: 6px 0;
+            justify-content: center;
+
+            div:nth-child(1) {
+              display: none;
+            }
+          }
+
+          span {
+            display: none;
+          }
+
+
+
+        }
+      }
+
+    }
+
+
+
+  }
+
 
 </style>

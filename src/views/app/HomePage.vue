@@ -1,6 +1,9 @@
 <template>
   <div id="container">
     <MenuMain/>
+    <div id="content">
+      <h1 id="title-page">Página inicial</h1>
+    </div>
   </div>
 </template>
 

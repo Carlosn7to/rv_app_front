@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="container-login">
     <CardLogin/>
 
   </div>
@@ -19,7 +19,7 @@ export default {
 
 <style scoped lang="scss">
 
-#container {
+#container-login {
   @include container(100%, 100%, 0, $background);
   @include flex(row, center, 0, 0);
 }

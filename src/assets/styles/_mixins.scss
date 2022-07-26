@@ -38,3 +38,93 @@
   align-items: $align;
   gap: $gap;
 }
+
+
+
+/*
+  Patterns
+ */
+
+@mixin transtion {
+  transition: ease-in-out .2s;
+}
+
+@mixin title-page {
+  font-size: 2.6rem;
+  letter-spacing: .04rem;
+  color: $text;
+}
+
+@mixin content-page {
+  @include container(100%, 90%, 0, #FFF)
+}
+
+@mixin filter {
+  @include container(100%, 15%, 0, transparent);
+
+}
+
+@mixin table {
+  @include container(100%, 65vh, 10px 2vh, transparent);
+  border-collapse: collapse;
+
+  thead {
+    tr {
+      background-color: $background;
+      height: 7vh;
+      text-align: left;
+
+      th {
+        padding: 0 0 0 1vw;
+        font-size: 1rem;
+        color: $text;
+        letter-spacing: .02rem;
+      }
+    }
+  }
+
+  thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;/* even columns width , fix width of table too*/
+  }
+
+  tbody {
+    display: block;
+    height: 90%;
+    overflow: auto;
+
+    tr {
+      border-bottom: 1px solid $table-tr-border;
+      height: 6vh;
+
+      &:nth-child(even) {
+        background-color: $table-td-hover;
+      }
+      &:nth-child(odd) {
+        background-color: transparent;
+      }
+
+      td {
+        padding: 0 0 0 1vw;
+        font-size: 1rem;
+        letter-spacing: .02rem;
+      }
+    }
+
+  }
+}
+
+@mixin input-text {
+  @include container(100%, 5vh, 5px 10px, #f4f4f4);
+  border: none;
+  border-radius: 2px;
+  outline: none;
+  transition: .3s ease-in-out;
+  font-weight: 500;
+  font-size: 1.6rem;
+  color: $text;
+  &:focus {
+    background: $input-fcs;
+  }
+}

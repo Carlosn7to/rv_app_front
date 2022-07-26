@@ -65,6 +65,18 @@ html {
   justify-content: center;
 }
 
+/*   SCROLL BAR   */
+::-webkit-scrollbar-track {
+  background-color: #F4F4F4;
+}
+::-webkit-scrollbar {
+  width: 2px;
+  background: #F4F4F4;
+}
+::-webkit-scrollbar-thumb {
+  background: #dad7d7;
+}
+
 
 
 #app {
@@ -73,7 +85,20 @@ html {
   background-color: $background;
 
   #container {
-    @include container(100%, 100%, 0, $background)
+    @include container(100%, 100%, 0 2vw 0 0, $background);
+    @include flex(row, space-between, initial, 2vw);
+
+    #content {
+      @include container(100%, 100%, 2vh 0, $background);
+
+      #title-page {
+        @include title-page
+      }
+
+      #content-page {
+        @include content-page
+      }
+    }
   }
 
 }
