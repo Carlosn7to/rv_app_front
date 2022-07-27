@@ -5,16 +5,14 @@
         <h1 id="title-page">Todas as vendas instaladas</h1>
         <div id="content-page">
           <div id="filter-table">
-
             <div id="container-search">
               <input type="text" name="search" id="search" placeholder="Nome do vendedor..." autocomplete="off"
                      v-model="search.value"
                      @keydown.enter="getSalesSearch()">
-              <div>
-                <i class="fi fi-rr-settings-sliders"></i>
-              </div>
             </div>
-
+            <div id="filter" @click="onFilter">
+              <i class="fi fi-rr-filter"></i>
+            </div>
           </div>
           <div id="table">
             <table>
@@ -27,9 +25,7 @@
                 <th>Status</th>
                 <th>Situação</th>
                 <th>Plano</th>
-                <th>Data do contrato</th>
-                <th>Data da ativação</th>
-                <th>Data do cancelamento</th>
+<!--                <th>Ações</th>-->
               </tr>
               </thead>
               <tbody>
@@ -39,9 +35,21 @@
                 <td>{{ sale.vendedor }}</td>
                 <td>{{ sale.supervisor }}</td>
                 <td>
-                  <span class="static-td" :class="{ 'sucess' : sale.status === 'Aprovado', 'pendent' : sale.status === 'Em Aprovação'}">
+                  <template v-if="sale.status === 'Aprovado'">
+                    <span class="static-td sucess">
                     {{ sale.status }}
-                  </span>
+                    </span>
+                  </template>
+                  <template v-if="sale.status === 'Pré-Contrato'">
+                    <span class="static-td pendent">
+                    {{ sale.status }}
+                    </span>
+                  </template>
+                  <template v-if="sale.status === 'Em Aprovação'">
+                    <span class="static-td pendent">
+                    {{ sale.status }}
+                    </span>
+                  </template>
                 </td>
                 <td>
                   <template v-if="sale.situacao === 'Normal'">
@@ -59,18 +67,49 @@
                     {{ sale.situacao }}
                     </span>
                   </template>
+                  <template v-if="sale.situacao === 'Bloqueio Administrativo'">
+                    <span class="static-td failure" style="font-size: 1rem">
+                    {{ sale.situacao }}
+                    </span>
+                  </template>
+                  <template v-if="sale.situacao === 'Demonstração'">
+                    <span class="static-td offline">
+                    {{ sale.situacao }}
+                    </span>
+                  </template>
+                  <template v-if="sale.situacao === 'Encerrado'">
+                    <span class="static-td offline">
+                    {{ sale.situacao }}
+                    </span>
+                  </template>
+                  <template v-if="sale.situacao === 'Suspenso'">
+                    <span class="static-td failure">
+                    {{ sale.situacao }}
+                    </span>
+                  </template>
+                  <template v-if="sale.situacao === 'Cortesia'">
+                    <span class="static-td offline">
+                    {{ sale.situacao }}
+                    </span>
+                  </template>
                 </td>
                 <td>{{ sale.plano }}</td>
-                <td>{{ sale.data_contrato }}</td>
-                <td>{{ sale.data_ativacao }}</td>
-                <td>{{ sale.data_cancelamento }}</td>
+<!--                <td>-->
+<!--                  <div id="actions">-->
+<!--                    <i class="fi fi-rr-interrogation"></i>-->
+<!--                  </div>-->
+<!--                </td>-->
               </tr>
               </tbody>
             </table>
           </div>
         </div>
-
       </div>
+      <FilterCard
+        v-if="filter.value === 1"
+        @on-filter="onFilter"
+        @apply-filters="applyFilters"
+      />
     </div>
 
 </template>
@@ -80,12 +119,14 @@
 import MenuMain from "@/components/app/MenuMain";
 import {AXIOS} from "../../../../services/api.ts";
 import Cookie from "js-cookie";
+import FilterCard from "@/components/app/FilterCard";
 
 
 export default {
   name: "SalesAll",
   components: {
-    MenuMain
+    MenuMain,
+    FilterCard
 
   },
   data () {
@@ -98,12 +139,16 @@ export default {
         type: String,
         default: null,
         value: ''
+      },
+      filter: {
+        type: Number,
+        default: 0,
+        value: 0
       }
     }
   },
   methods: {
     getSales: function () {
-
       AXIOS({
         method: 'GET',
         url: 'data_voalle',
@@ -128,6 +173,25 @@ export default {
       }).then((res) => {
         this.sales = res
       })
+    },
+    onFilter() {
+      if(this.filter.value === 0) {
+        this.filter.value = 1
+      } else {
+        this.filter.value = 0
+      }
+    },
+    applyFilters: function (data) {
+      AXIOS({
+        method: 'GET',
+        url: 'data_voalle',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('rv_token')
+        },
+        params: data
+      }).then((res) => {
+        this.sales = res
+      })
     }
   },
   mounted() {
@@ -147,7 +211,7 @@ export default {
     #filter-table {
       @include filter;
       padding: 0 1vw;
-      @include flex(arrow, initial, center, 0);
+      @include flex(arrow, initial, center, 2vw);
 
       #container-search {
         @include container-search;
@@ -165,6 +229,23 @@ export default {
           }
         }
       }
+
+      #filter {
+        background-color: $age-blue;
+        padding: 5px 10px 2px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        @include transtion;
+
+        i {
+          color: #fff;
+          font-size: 1.8rem;
+        }
+
+        &:hover {
+          opacity: .8;
+        }
+      }
     }
 
     #table {
@@ -176,80 +257,48 @@ export default {
       table {
         @include table;
 
-        thead tr {
-          th:nth-child(1) {
-            width: 5%;
+        thead tr, tbody tr {
+
+          th:nth-child(1), td:nth-child(1) {
+            width: 7%;
             text-align: center;
+            padding: 0;
+
           }
 
-          th:nth-child(7) {
-            width: 10%;
-            text-align: center;
+          th:nth-child(2), td:nth-child(2), th:nth-child(3), td:nth-child(3), th:nth-child(4), td:nth-child(4) {
+            width: 15%;
+            text-align: left;
           }
 
-          th:nth-child(8) {
-            width: 10%;
+          th:nth-child(5), td:nth-child(5), th:nth-child(6), td:nth-child(6) {
+            width: 15%;
             text-align: center;
+            padding: 0;
+
           }
 
-          th:nth-child(5) {
-            width: 10%;
-            text-align: center;
-          }
-
-          th:nth-child(6) {
-            width: 10%;
-            text-align: center;
-          }
-
-          th:nth-child(9) {
-            width: 10%;
-            text-align: center;
-          }
-
-          th:nth-child(10) {
-            width: 10%;
-            text-align: center;
-          }
-
-
-        }
-        tbody tr {
-          td:nth-child(1) {
-            width: 5%;
-            text-align: center;
+          th:nth-child(7),td:nth-child(7) {
+            width: 15%;
           }
 
           td:nth-child(7) {
-            width: 10%;
-            text-align: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
           }
 
-          td:nth-child(8) {
+          th:nth-child(8),td:nth-child(8) {
             width: 10%;
             text-align: center;
           }
 
-          td:nth-child(5) {
-            width: 10%;
-            text-align: center;
+          #actions {
+            @include flex(arrow, center, center, 0);
+            font-size: 2rem;
+            color: $i-menu;
           }
 
-          td:nth-child(6) {
-            width: 10%;
-            text-align: center;
-          }
-
-          td:nth-child(9) {
-            width: 10%;
-            text-align: center;
-          }
-
-          td:nth-child(10) {
-            width: 10%;
-            text-align: center;
-          }
+        }
+        tbody tr {
 
           .static-td {
             @include static-td;
@@ -267,11 +316,14 @@ export default {
             @include failure;
           }
 
+          .offline {
+            @include offline;
+          }
+
         }
       }
     }
   }
 }
-
 
 </style>

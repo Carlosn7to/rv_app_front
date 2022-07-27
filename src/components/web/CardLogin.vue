@@ -9,6 +9,7 @@
           type="text" name="email" id="email" placeholder="E-mail">
       <input
           v-model="password"
+          @keydown.enter="authentic"
           type="password" name="password" id="password" placeholder="Senha">
       <input type="submit" value="Entrar" @click="authentic">
     </div>

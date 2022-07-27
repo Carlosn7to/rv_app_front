@@ -22,6 +22,7 @@
   list-style: none;
   box-sizing: border-box;
   overflow: hidden;
+  letter-spacing: .5px;
 }
 
 html {
@@ -31,7 +32,7 @@ html {
 
 /*   PLACEHOLDER   */
 ::-webkit-input-placeholder {
-  color: #33333370;
+  color: #33333350;
   font-weight: 600;
   font-size: 1.4rem;
 }

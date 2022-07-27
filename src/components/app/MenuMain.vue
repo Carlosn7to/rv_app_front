@@ -41,6 +41,15 @@
               <span>Vendas</span>
             </li>
           </router-link>
+          <router-link to="/vendedores">
+            <li>
+              <div></div>
+              <div>
+                <i class="fi fi-rr-users-alt"></i>
+              </div>
+              <span>Vendedores</span>
+            </li>
+          </router-link>
         </ul>
         <ul class="href-menu">
           <span>Ações</span>

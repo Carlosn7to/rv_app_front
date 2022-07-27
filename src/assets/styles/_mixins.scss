@@ -135,7 +135,7 @@
 }
 
 @mixin container-search {
-  @include container(100%, 5vh, 5px 20px, #FFF);
+  @include container(100%, initial, 10px 20px, #FFF);
   @include flex(row, space-between, center, 0);
   border: 2px solid #cccccc40;
   border-radius: 30px;
@@ -170,4 +170,55 @@
 @mixin failure {
   background-color: #FACFD6;
   color: #EB334D;
+}
+
+@mixin offline {
+  background-color: #cccccc40;
+  color: #777;
+}
+
+@mixin modal {
+  width: 100vw;
+  height: 100vh;
+  background-color: #33333370;
+  position: absolute;
+  @include flex(arrow, center, center, 0)
+}
+
+@mixin card-modal($wd, $hg, $pd) {
+  width: $wd;
+  height: $hg;
+  padding: $pd;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+  animation: expand forwards .2s;
+}
+
+@keyframes expand {
+  from {
+    transform: scale(.6);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@mixin close-button {
+  width: 100%;
+  height: 10%;
+  @include flex(row, flex-end, center, 0);
+  padding: 0 .5vw;
+
+  i {
+    font-size: 2.4rem;
+    color: $red;
+    cursor: pointer;
+
+    &:hover {
+      opacity: .8;
+    }
+  }
 }
