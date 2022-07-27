@@ -6,9 +6,14 @@
         <div id="content-page">
           <div id="filter-table">
 
-            <input type="text" name="search" id="search" placeholder="Nome do vendedor..." autocomplete="off"
-                   v-model="search.value"
-                   @keydown.enter="getSalesSearch()">
+            <div id="container-search">
+              <input type="text" name="search" id="search" placeholder="Nome do vendedor..." autocomplete="off"
+                     v-model="search.value"
+                     @keydown.enter="getSalesSearch()">
+              <div>
+                <i class="fi fi-rr-settings-sliders"></i>
+              </div>
+            </div>
 
           </div>
           <div id="table">
@@ -21,10 +26,10 @@
                 <th>Supervisor</th>
                 <th>Status</th>
                 <th>Situação</th>
+                <th>Plano</th>
                 <th>Data do contrato</th>
                 <th>Data da ativação</th>
                 <th>Data do cancelamento</th>
-                <th>Plano</th>
               </tr>
               </thead>
               <tbody>
@@ -33,12 +38,32 @@
                 <td>{{ sale.nome_cliente }}</td>
                 <td>{{ sale.vendedor }}</td>
                 <td>{{ sale.supervisor }}</td>
-                <td>{{ sale.status }}</td>
-                <td>{{ sale.situacao }}</td>
+                <td>
+                  <span class="static-td" :class="{ 'sucess' : sale.status === 'Aprovado', 'pendent' : sale.status === 'Em Aprovação'}">
+                    {{ sale.status }}
+                  </span>
+                </td>
+                <td>
+                  <template v-if="sale.situacao === 'Normal'">
+                    <span class="static-td sucess">
+                    {{ sale.situacao }}
+                    </span>
+                  </template>
+                  <template v-if="sale.situacao === 'Cancelado'">
+                    <span class="static-td failure">
+                    {{ sale.situacao }}
+                    </span>
+                  </template>
+                  <template v-if="sale.situacao === 'Bloqueio Financeiro'">
+                    <span class="static-td failure" style="font-size: 1rem">
+                    {{ sale.situacao }}
+                    </span>
+                  </template>
+                </td>
+                <td>{{ sale.plano }}</td>
                 <td>{{ sale.data_contrato }}</td>
                 <td>{{ sale.data_ativacao }}</td>
                 <td>{{ sale.data_cancelamento }}</td>
-                <td>{{ sale.plano }}</td>
               </tr>
               </tbody>
             </table>
@@ -124,10 +149,21 @@ export default {
       padding: 0 1vw;
       @include flex(arrow, initial, center, 0);
 
-      #search {
-        @include input-text;
-        height: 6vh;
+      #container-search {
+        @include container-search;
         width: 25%;
+
+        #search {
+          @include input-search;
+          width: 90%;
+        }
+
+        div {
+          i {
+            font-size: 2rem;
+            color: $age-orange;
+          }
+        }
       }
     }
 
@@ -147,7 +183,7 @@ export default {
           }
 
           th:nth-child(7) {
-            width: 5%;
+            width: 10%;
             text-align: center;
           }
 
@@ -171,6 +207,11 @@ export default {
             text-align: center;
           }
 
+          th:nth-child(10) {
+            width: 10%;
+            text-align: center;
+          }
+
 
         }
         tbody tr {
@@ -180,8 +221,9 @@ export default {
           }
 
           td:nth-child(7) {
-            width: 5%;
+            width: 10%;
             text-align: center;
+            font-size: 1.2rem;
           }
 
           td:nth-child(8) {
@@ -202,6 +244,27 @@ export default {
           td:nth-child(9) {
             width: 10%;
             text-align: center;
+          }
+
+          td:nth-child(10) {
+            width: 10%;
+            text-align: center;
+          }
+
+          .static-td {
+            @include static-td;
+          }
+
+          .sucess {
+            @include sucess;
+          }
+
+          .pendent {
+            @include pendent;
+          }
+
+          .failure {
+            @include failure;
           }
 
         }
