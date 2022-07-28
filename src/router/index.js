@@ -5,6 +5,7 @@ import HomePage from "@/views/app/HomePage";
 import Guard from "../../services/middleware/Auth";
 import MySales from "@/views/app/sales/MySales";
 import SalesAll from "@/views/app/sales/SalesAll";
+import VendorsAll from "@/views/app/sales/VendorsAll";
 
 const routes = [
   {
@@ -28,6 +29,12 @@ const routes = [
     path: '/minhas-vendas',
     name: 'MySales',
     component: MySales,
+    beforeEnter: Guard.auth
+  },
+  {
+    path: '/equipes',
+    name: 'VendorsAll',
+    component: VendorsAll,
     beforeEnter: Guard.auth
   }
 ]

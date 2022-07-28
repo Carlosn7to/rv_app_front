@@ -41,13 +41,13 @@
               <span>Vendas</span>
             </li>
           </router-link>
-          <router-link to="/vendedores">
+          <router-link to="/equipes">
             <li>
               <div></div>
               <div>
                 <i class="fi fi-rr-users-alt"></i>
               </div>
-              <span>Vendedores</span>
+              <span>Equipes</span>
             </li>
           </router-link>
         </ul>
