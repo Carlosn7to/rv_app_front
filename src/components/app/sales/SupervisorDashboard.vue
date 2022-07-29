@@ -96,7 +96,7 @@ export default {
           'Authorization': 'Bearer '+Cookie.get('rv_token')
         }
       }).then((res) => {
-        console.log(res)
+        this.graph.pie.data = res.data
       })
     },
     graphBar: function () {
@@ -133,13 +133,14 @@ export default {
       const pizza = new Chart(ctx2, {
         type: 'pie',
         data: {
-          labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue'],
+          labels: ['Ativo', 'Inativo'],
           datasets: [
             {
               label: 'Dataset 1',
-              data: [1,2,3,4,6],
+              data: [12,16],
               backgroundColor: [
-                  '#0f297d'
+                  'green',
+                  'red'
               ] ,
             }
           ]
