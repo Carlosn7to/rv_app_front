@@ -50,7 +50,9 @@ export default {
           .then((res) => {
             Cookie.set('rv_token', res.data.access_token)
             this.$router.replace('/home')
-          })
+          }).catch((error) => {
+            console.log(error)
+      })
 
 
     }

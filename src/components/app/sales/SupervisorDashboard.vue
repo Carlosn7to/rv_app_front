@@ -2,9 +2,23 @@
   <div id="content">
     <h1 id="title-page">Supervisor(a) - {{ supervisor }}</h1>
     <div id="content-page">
-      <div id="teste">
-        <canvas id="myChart"></canvas>
+      <div class="cards">
+        <div class="card">
+          <span>Total de vendedores</span>
+          <canvas id="pizza"></canvas>
+        </div>
+        <div class="card">
+          <span>Total de vendedores</span>
+          <canvas id="myChart"></canvas>
+        </div>
+        <div class="card"></div>
+        <div class="card"></div>
       </div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
 
     </div>
   </div>
@@ -30,6 +44,16 @@ export default {
   data () {
     return {
       vendors: {},
+      graph: {
+        bar: {
+          data: null,
+          label: null
+        },
+        pie: {
+          data: null,
+          label: null
+        }
+      }
     }
   },
   methods: {
@@ -49,30 +73,48 @@ export default {
         console.log(error)
       })
     },
+    getAmount: function () {
+      AXIOS({
+        method: 'GET',
+        url: 'data_items/supervisor_amount',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('rv_token')
+        }
+      }).then((res) => {
+        this.graph.bar.data = res.data.amount
+        this.graph.bar.label = res.data.month
+        this.graphBar()
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    getTeam: function () {
+      AXIOS({
+        method: 'GET',
+        url: 'data_items/supervisor_team',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('rv_token')
+        }
+      }).then((res) => {
+        console.log(res)
+      })
+    },
     graphBar: function () {
+
+      const mesArray = this.graph.bar.label
       const ctx = document.getElementById('myChart');
       const myChart = new Chart(ctx, {
-        type: 'doughnut',
+        type: 'bar',
         data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          labels: mesArray,
           datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            label: 'Receita R$',
+            data: this.graph.bar.data,
             backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)'
+              '#0f297d'
             ],
             borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)'
+              '#0f297d'
             ],
             borderWidth: 1
           }]
@@ -83,11 +125,41 @@ export default {
         }
       });
       return myChart
+    },
+    graphPizza: function () {
+
+      const ctx2 = document.getElementById('pizza');
+
+      const pizza = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+          labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue'],
+          datasets: [
+            {
+              label: 'Dataset 1',
+              data: [1,2,3,4,6],
+              backgroundColor: [
+                  '#0f297d'
+              ] ,
+            }
+          ]
+        },
+        options: {
+          responsive:true,
+          maintainAspectRatio: false
+        }
+      });
+      return pizza
     }
+
+  },
+  created() {
+    this.getAmount()
   },
   mounted() {
     this.getDataSupervisor()
-    this.graphBar()
+    this.getTeam()
+    this.graphPizza()
   }
 }
 
@@ -95,5 +167,34 @@ export default {
 
 <style scoped lang="scss">
 
+#content-page{
+  background-color: $background !important;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 30%;
+  grid-template-areas: 'S S S S';
+  gap: 10px;
+
+
+  .cards {
+    margin-top: 2vh;
+    background-color: $background;;
+    grid-area: S;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 100%;
+    padding: 10px;
+    gap: 5rem;
+
+    .card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+      padding: 2vh 1vw;
+    }
+  }
+}
 
 </style>
