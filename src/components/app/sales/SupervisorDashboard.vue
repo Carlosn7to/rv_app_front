@@ -2,23 +2,6 @@
   <div id="content">
     <h1 id="title-page">Supervisor(a) - {{ supervisor }}</h1>
     <div id="content-page">
-      <div class="cards">
-        <div class="card">
-          <span>Total de vendedores</span>
-          <canvas id="pizza"></canvas>
-        </div>
-        <div class="card">
-          <span>Total de vendedores</span>
-          <canvas id="myChart"></canvas>
-        </div>
-        <div class="card"></div>
-        <div class="card"></div>
-      </div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
 
     </div>
   </div>
@@ -83,7 +66,6 @@ export default {
       }).then((res) => {
         this.graph.bar.data = res.data.amount
         this.graph.bar.label = res.data.month
-        this.graphBar()
       }).catch((error) => {
         console.log(error)
       })
@@ -160,7 +142,6 @@ export default {
   mounted() {
     this.getDataSupervisor()
     this.getTeam()
-    this.graphPizza()
   }
 }
 
@@ -171,31 +152,6 @@ export default {
 #content-page{
   background-color: $background !important;
 
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 30%;
-  grid-template-areas: 'S S S S';
-  gap: 10px;
-
-
-  .cards {
-    margin-top: 2vh;
-    background-color: $background;;
-    grid-area: S;
-
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 100%;
-    padding: 10px;
-    gap: 5rem;
-
-    .card {
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
-      padding: 2vh 1vw;
-    }
-  }
 }
 
 </style>
