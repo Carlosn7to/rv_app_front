@@ -3,25 +3,37 @@
   <div id="container">
     <MenuMain/>
     <div id="content">
-      <h1 id="title-page">Minhas vendas</h1>
+      <h1 id="title-page">Minha Dashboard</h1>
       <div id="content-page">
         <div id="sales">
           <div id="dashboards">
-            <div class="dashboard">
-              <h6>Quantidade de estrelas</h6>
-              <span>281</span>
+            <div class="dashboard" style="background: #FEA11D;">
+              <div>
+                <span>281</span>
+                <h6>Estrelas</h6>
+              </div>
+              <i class="fi fi-ss-star"></i>
             </div>
-            <div class="dashboard">
-              <h6>Quantidade de vendas</h6>
-              <span>35</span>
+            <div class="dashboard" style="background-color: #009688">
+              <div>
+                <span>{{ dashboard.sales }}</span>
+                <h6>Vendas</h6>
+              </div>
+              <i class="fi fi-ss-rocket-lunch"></i>
             </div>
-            <div class="dashboard">
-              <h6>Plano mais vendido</h6>
-              <span>800Mbps</span>
+            <div class="dashboard" style="background-color: #3F51B5">
+              <div>
+                <span>{{ dashboard.plan.name }}({{dashboard.plan.un}})</span>
+                <h6>Top plano</h6>
+              </div>
+              <i class="fi fi-ss-shopping-cart-check"></i>
             </div>
-            <div class="dashboard">
-              <h6>Cancelamentos</h6>
-              <span>12</span>
+            <div class="dashboard" style="background-color: #F44336">
+              <div>
+                <span>{{ dashboard.cancel }}</span>
+                <h6>Cancelamentos</h6>
+              </div>
+              <i class="fi fi-ss-delete-document"></i>
             </div>
           </div>
 
@@ -36,7 +48,7 @@
           </div>
           <div class="itens-filter">
             <h6>Mês</h6>
-            <div id="months">
+            <div class="months">
               <span class="itemFilter" :class="{ isActive : filter.month === '01' }" @click="filterMonth('01')">Jan</span>
               <span class="itemFilter" :class="{ isActive : filter.month === '02' }" @click="filterMonth('02')">Fev</span>
               <span class="itemFilter" :class="{ isActive : filter.month === '03' }" @click="filterMonth('03')">Mar</span>
@@ -53,9 +65,8 @@
           </div>
           <div class="itens-filter">
             <h6>Status</h6>
-            <div id="months">
+            <div class="months">
               <span class="itemFilter" :class="{ isActive : filter.status === 'Aprovado' }" @click="filterStatus('Aprovado')">Aprovado</span>
-              <span class="itemFilter" :class="{ isActive : filter.status === 'Pré_contrato' }" @click="filterStatus('Pré_contrato')">Pré contrato</span>
               <span class="itemFilter" :class="{ isActive : filter.status === 'Cancelado' }" @click="filterStatus('Cancelado')">Cancelado</span>
             </div>
           </div>
@@ -88,10 +99,14 @@ export default {
         month: null,
         status: null
       },
-      sales: {
+      dashboard: {
         stars: null,
-        amount: null,
-
+        sales: null,
+        plan: {
+          name: null,
+          un: null
+        },
+        cancel: null,
       }
     }
   },
@@ -125,7 +140,11 @@ export default {
             status: this.filter.status
           }
         }).then((res) => {
-          console.log(res)
+          console.log(res.data)
+          this.dashboard.sales = res.data.dashboard.sales
+          this.dashboard.plan.name = res.data.dashboard.plan
+          this.dashboard.plan.un = res.data.dashboard.plan_qntd
+          this.dashboard.cancel = res.data.dashboard.cancelled
         }).catch((error) => {
           console.log(error)
         })
@@ -135,6 +154,8 @@ export default {
 
 
     }
+  },
+  mounted() {
   }
 }
 </script>
@@ -147,45 +168,49 @@ export default {
   @include flex(row, space-between, start, 20px);
 
   #sales {
-    width: 80%;
+    width: 85%;
     height: 100%;
 
     #dashboards {
-      height: 18%;
+      height: 12%;
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-columns: .5fr repeat(3, .5fr);
+      gap: 2vw;
 
       .dashboard {
-        @include flex(column, center, center, 1rem);
-        margin: 5px;
+        @include flex(row, space-between, center, 1rem);
+        padding: 0 2vw;
         background-color: #fff;
-        border-radius: 10px;
+        border-radius: 5px;
         box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-        text-align: center;
 
         h6 {
-          font-size: 1.2rem;
-          padding-bottom: 2vh;
-          border-bottom: 2px solid $border-mid;
-          color: $text-dashboard;
-          font-weight: 400;
+          font-size: 1.4rem;
+          color: rgba(255, 255, 255, .8);
+          font-weight: 500;
         }
 
         span {
-          font-size: 2rem;
-          font-weight: 600;
-          color: $text;
+          font-size: 2.4rem;
+          font-weight: 400;
+          color: #FFF;
+        }
+
+        i {
+          font-size: 4.2rem;
+          color: #FFFFFF80
         }
       }
     }
   }
 
   #filter {
-    width: 20%;
+    width: 15%;
     margin: 5px;
     background: #fff;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    padding: 0 1vw;
 
     .isActive {
         background-color: $age-blue;
@@ -203,14 +228,14 @@ export default {
         font-weight: 500;
       }
 
-      #years, #months {
+      #years, .months {
         @include flex(row, center, center, 10px);
         padding: 10px 0;
 
 
       }
 
-      #months {
+      .months {
         flex-wrap: wrap;
       }
 
@@ -222,6 +247,11 @@ export default {
         font-weight: 600;
         cursor: pointer;
         @include transtion;
+
+        &:hover {
+          background: $age-blue;
+          color: #fff;
+        }
       }
 
       button {
