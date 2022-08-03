@@ -12,13 +12,13 @@
         <ul class="href-menu">
           <span>Principal</span>
           <router-link to="/home">
-            <li>
-              <div></div>
-              <div>
-                <i class="fi fi-rr-home"></i>
-              </div>
-              <span>Home</span>
-            </li>
+<!--            <li>-->
+<!--              <div></div>-->
+<!--              <div>-->
+<!--                <i class="fi fi-rr-home"></i>-->
+<!--              </div>-->
+<!--              <span>Home</span>-->
+<!--            </li>-->
           </router-link>
           <router-link to="/minhas-vendas">
             <li>
@@ -30,38 +30,38 @@
             </li>
           </router-link>
         </ul>
-        <ul class="href-menu">
-          <span>Supervisão</span>
-          <router-link to="/vendas">
-            <li>
-              <div></div>
-              <div>
-                <i class="fi fi-rr-chat-arrow-grow"></i>
-              </div>
-              <span>Vendas</span>
-            </li>
-          </router-link>
-          <router-link to="/equipes">
-            <li>
-              <div></div>
-              <div>
-                <i class="fi fi-rr-users-alt"></i>
-              </div>
-              <span>Equipes</span>
-            </li>
-          </router-link>
-        </ul>
+<!--        <ul class="href-menu">-->
+<!--          <span>Supervisão</span>-->
+<!--          <router-link to="/vendas">-->
+<!--            <li>-->
+<!--              <div></div>-->
+<!--              <div>-->
+<!--                <i class="fi fi-rr-chat-arrow-grow"></i>-->
+<!--              </div>-->
+<!--              <span>Vendas</span>-->
+<!--            </li>-->
+<!--          </router-link>-->
+<!--          <router-link to="/equipes">-->
+<!--            <li>-->
+<!--              <div></div>-->
+<!--              <div>-->
+<!--                <i class="fi fi-rr-users-alt"></i>-->
+<!--              </div>-->
+<!--              <span>Equipes</span>-->
+<!--            </li>-->
+<!--          </router-link>-->
+<!--        </ul>-->
         <ul class="href-menu">
           <span>Ações</span>
-          <router-link to="/gerenciamento">
-            <li>
-              <div></div>
-              <div>
-                <i class="fi fi-rr-settings-sliders"></i>
-              </div>
-              <span>Gerenciamento</span>
-            </li>
-          </router-link>
+<!--          <router-link to="/gerenciamento">-->
+<!--            <li>-->
+<!--              <div></div>-->
+<!--              <div>-->
+<!--                <i class="fi fi-rr-settings-sliders"></i>-->
+<!--              </div>-->
+<!--              <span>Gerenciamento</span>-->
+<!--            </li>-->
+<!--          </router-link>-->
           <router-link to="/logout">
             <li>
               <div></div>
@@ -83,7 +83,7 @@ export default {
   name: "MenuMain",
   data () {
     return {
-        menu: false
+        menu: false,
     }
   },
   methods: {

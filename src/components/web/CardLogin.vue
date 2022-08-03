@@ -49,7 +49,9 @@ export default {
       })
           .then((res) => {
             Cookie.set('rv_token', res.data.access_token)
-            this.$router.replace('/home')
+            Cookie.set('name', res.data.name)
+            Cookie.set('permission', res.data.permission)
+            this.$router.replace('/minhas-vendas')
           }).catch((error) => {
             console.log(error)
       })

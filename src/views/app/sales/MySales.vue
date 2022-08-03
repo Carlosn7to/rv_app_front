@@ -7,7 +7,7 @@
       <div id="content-page">
         <div id="sales">
           <div id="dashboards">
-            <div class="dashboard" style="background: #FEA11D;">
+              <div class="dashboard" style="background: #FEA11D;">
               <div>
                 <span>{{ dashboard.stars.value }}</span>
                 <h6>Estrelas</h6>
@@ -74,7 +74,6 @@
                     <th>Nº contrato</th>
                     <th style="text-align: left">Nome do cliente</th>
                     <th style="text-align: left">Plano</th>
-                    <th>Estrelas</th>
                     <th>Status</th>
                   </tr>
                 </thead>
@@ -83,7 +82,6 @@
                     <td>{{ sale.id_contrato }}1</td>
                     <td style="text-align: left">{{ sale.nome_cliente }}</td>
                     <td style="text-align: left">{{ sale.plano }}</td>
-                    <td>{{ sale.estrela }}</td>
                     <td>{{ sale.status }}</td>
                   </tr>
                 </tbody>
@@ -91,14 +89,34 @@
             </div>
             <div id="calc-sales">
               <h6>Projeção de vendas</h6>
-              <p>Hoje é dia <b>02</b>, faltam <b>28</b> dias para acabar seu mês e
-                caso você mantenha esse desempenho, terminará o mês com <b>0</b> estrelas, que dará uma comissão de <b>R$0,00</b>
+              <p>Hoje é dia <b>{{ projection.today }}</b>, faltam <b>{{ projection.missing }}</b> dias para acabar seu mês e
+                caso você mantenha esse desempenho, terminará o mês com:
               </p>
+              <div class="info-projection">
+                  <span style="color: #FEA11D;"><i class="fi fi-ss-star"></i>Estrelas: <b>{{ projection.stars }}</b></span>
+                <div>
+                  <span style="color: #009688"><i class="fi fi-ss-rocket-lunch"></i>Vendas: <b>{{ projection.sales }}</b></span>
+                </div>
+                <div>
+                  <span style="color: #983fb5"><i class="fi fi-sr-chart-line-up"></i>Meta atingida: <b>{{ projection.meta }}%</b></span>
+                </div>
+                <div>
+                  <span style="color: rgba(0,150,2,0.85)"><i class="fi fi-sr-sack-dollar"></i>Comissão: <b>R${{ projection.comission }}</b></span>
+                </div>
+              </div>
+              <div class="tip-projection" v-if="projection.meta > 70 && projection.meta < 100">
+                <i class="fi fi-sr-lightbulb-dollar"></i>
+                <p>Faltará pouco pra meta...
+                  <br>
+                  <br>
+                  <b>Você consegue!</b>
+                </p>
+              </div>
             </div>
           </div>
 
         </div>
-        <div id="filter">
+        <div id="filter" v-if="operator === 2">
           <div class="itens-filter">
             <h6>Ano</h6>
             <div id="years">
@@ -154,6 +172,7 @@ export default {
   },
   data () {
     return {
+      operator: Cookie.get('operator'),
       filter: {
         year: null,
         month: null,
@@ -175,6 +194,14 @@ export default {
           un: null
         },
         cancel: null,
+      },
+      projection: {
+        today: null,
+        missing: null,
+        stars: null,
+        sales: null,
+        meta: null,
+        comission: null,
       }
     }
   },
@@ -194,13 +221,12 @@ export default {
     },
     getFilterData: function () {
 
-      if(this.filter.year !== null && this.filter.month !== null) {
         AXIOS({
           method: 'GET',
           url: 'data_items/filter-sales',
           headers: {
             'Authorization': 'Bearer '+Cookie.get('rv_token'),
-            'username': 'Amanda Andrade Brito'
+            'username': Cookie.get('name')
           },
           params: {
             year: this.filter.year,
@@ -208,6 +234,21 @@ export default {
             status: this.filter.status
           }
         }).then((res) => {
+          this.dashboard.sales.count = ''
+          this.dashboard.sales.sales = ''
+          this.dashboard.stars.value = 0
+          this.dashboard.stars.amount = 0
+          this.dashboard.stars.price = 0
+          this.dashboard.stars.meta = 0
+          this.dashboard.plan.name = ''
+          this.dashboard.plan.un = ''
+          this.dashboard.cancel = 0
+          this.projection.today = res.data.dashboard.stars.original.projection.original.today
+          this.projection.missing = res.data.dashboard.stars.original.projection.original.missing
+          this.projection.stars = res.data.dashboard.stars.original.projection.original.stars
+          this.projection.sales = res.data.dashboard.stars.original.projection.original.comission.original.sales
+          this.projection.meta = res.data.dashboard.stars.original.projection.original.comission.original.meta
+          this.projection.comission = res.data.dashboard.stars.original.projection.original.comission.original.comission
           this.dashboard.sales.count = res.data.dashboard.sales
           this.dashboard.sales.sales = res.data.sales
           this.dashboard.stars.value = res.data.dashboard.stars.original.stars
@@ -220,14 +261,10 @@ export default {
         }).catch((error) => {
           console.log(error)
         })
-      } else {
-        alert('Selecione os filtros!')
-      }
-
-
     }
   },
   mounted() {
+    this.getFilterData()
   }
 }
 </script>
@@ -240,7 +277,7 @@ export default {
   @include flex(row, space-between, start, 20px);
 
   #sales {
-    width: 85%;
+    width: 100%;
     height: 100%;
     @include flex(column, initial, initial, 20px);
 
@@ -283,7 +320,6 @@ export default {
 
       #calc-sales {
         width: 30%;
-        height: 40%;
         padding: 15px;
         border-radius: 10px;
         background-color: #fff;
@@ -295,12 +331,54 @@ export default {
           }
 
           p {
-            font-size: 2rem;
+            font-size: 1.6rem;
             color: $text-menu;
+            margin-bottom: 2vh;
 
             b {
-              font-size: 2.2rem;
+              font-size: 1.8rem;
               color: #333;
+            }
+          }
+
+          .info-projection {
+            @include flex(column, initial, initial, 10px);
+
+            span {
+              @include flex(row, initial, center, 5px);
+              font-size: 1.6rem;
+              border-bottom: 4px solid $border;
+              padding-bottom: 10px;
+              font-weight: 600;
+
+              b {
+                font-weight: 800;
+              }
+
+              i {
+                font-size: 2.4rem;
+              }
+            }
+          }
+
+          .tip-projection {
+            height: 40%;
+            @include flex(column, center, center, 10px);
+            text-align: center;
+            padding: 0 3vw;
+            color: #FEA11D;
+
+            i {
+              font-size: 5rem;
+            }
+
+            p {
+              font-weight: 500;
+              color: #333;
+            }
+
+            b {
+              font-size: 3rem;
             }
           }
       }
@@ -321,6 +399,10 @@ export default {
                 text-align: center;
               }
             }
+          }
+
+          tbody {
+            height: 70%;
           }
         }
       }
