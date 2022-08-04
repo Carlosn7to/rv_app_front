@@ -83,7 +83,7 @@ export default {
   name: "MenuMain",
   data () {
     return {
-        menu: false,
+        menu: true,
     }
   },
   methods: {
@@ -301,6 +301,25 @@ export default {
 
 
 
+  }
+
+  @media (min-width: 360px) and (max-width: 900px) {
+    .menu {
+      position: absolute;
+      width: 100%;
+
+      #logo-company {
+        height: 9%;
+        padding-left: 5vw ;
+        img {
+          width: 30vw;
+        }
+      }
+    }
+
+    .menuOff {
+      width: 10%;
+    }
   }
 
 

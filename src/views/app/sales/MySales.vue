@@ -272,7 +272,7 @@ export default {
 <style scoped lang="scss">
 
 #content-page {
-  background: transparent !important;
+  background: transparent;
 
   @include flex(row, space-between, start, 20px);
 
@@ -485,6 +485,46 @@ export default {
       }
     }
   }
+
+}
+
+@media (min-width: 360px) and (max-width: 900px) {
+    #content-page {
+      overflow-y: auto;
+      #sales {
+        padding: 5px 0px;
+        gap: 10px;
+        #dashboards {
+          @include flex(column, center, center, 10px);
+          height: initial;
+
+          .dashboard {
+            width: 100%;
+            padding: 10px;
+
+            span {
+              font-size: 1.6rem;
+            }
+
+            h6 {
+              font-size: 1.2rem;
+            }
+          }
+        }
+        .content-sales {
+          flex-direction: column-reverse;
+
+          #list-sales {
+            width: 100%;
+            font-size: 2rem;
+          }
+
+          #calc-sales {
+            width: 100%;
+          }
+        }
+      }
+    }
 
 }
 

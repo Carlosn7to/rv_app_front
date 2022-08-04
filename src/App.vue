@@ -26,7 +26,7 @@
 }
 
 html {
-  font-size: 62.5% !important;
+  font-size: 62.5%;
 }
 
 
@@ -99,7 +99,21 @@ html {
       }
     }
   }
+}
 
+@media(min-width: 360px) and (max-width: 900px) {
+  #app {
+    #container {
+      #content {
+        padding: 2vh 5vw 2vh 13vw;
+
+        #content-page {
+          max-height: 90%;
+          height: initial;
+        }
+      }
+    }
+  }
 }
 
 </style>

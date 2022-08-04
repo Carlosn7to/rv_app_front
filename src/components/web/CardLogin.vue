@@ -56,8 +56,15 @@ export default {
             console.log(error)
       })
 
-
+    },
+    teste: function() {
+      var altura = window.screen.height;
+      var largura = window.screen.width;
+      alert(altura)
+      alert(largura+"largura")
     }
+  },
+  mounted() {
   }
 }
 </script>
@@ -101,5 +108,37 @@ export default {
       }
     }
   }
+
+  @media (min-width: 360px) and (max-width: 900px) {
+      #card {
+        width: 300px;
+        height: 400px;
+        margin-top: 15vh;
+        padding: 0vh 5vw;
+
+        #logo-company {
+          img {
+            width: 20vh;
+          }
+        }
+
+        #form {
+
+          input[type=text], input[type=password] {
+            @include container(100%, 40px, 5px 10px, #f4f4f4);
+            border: none;
+            border-radius: 2px;
+            outline: none;
+            transition: .3s ease-in-out;
+            font-weight: 500;
+            font-size: 1.6rem;
+            color: $text;
+            &:focus {
+              background: $input-fcs;
+            }
+          }
+      }
+    }
+}
 
 </style>
