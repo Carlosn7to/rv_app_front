@@ -30,36 +30,18 @@
             </li>
           </router-link>
         </ul>
-<!--        <ul class="href-menu">-->
-<!--          <span>Gerenciamento</span>-->
-<!--          <router-link to="/vendas">-->
-<!--            <li>-->
-<!--              <div></div>-->
-<!--              <div>-->
-<!--                <i class="fi fi-rr-chat-arrow-grow"></i>-->
-<!--              </div>-->
-<!--              <span>Vendas</span>-->
-<!--            </li>-->
-<!--          </router-link>-->
-<!--          <router-link to="/equipes">-->
-<!--            <li>-->
-<!--              <div></div>-->
-<!--              <div>-->
-<!--                <i class="fi fi-rr-users-alt"></i>-->
-<!--              </div>-->
-<!--              <span>Equipes</span>-->
-<!--            </li>-->
-<!--          </router-link>-->
-<!--          <router-link to="/colaboradores">-->
-<!--            <li>-->
-<!--              <div></div>-->
-<!--              <div>-->
-<!--                <i class="fi fi-rr-users-alt"></i>-->
-<!--              </div>-->
-<!--              <span>Colaboradores</span>-->
-<!--            </li>-->
-<!--          </router-link>-->
-<!--        </ul>-->
+        <ul class="href-menu">
+          <span>Gerenciamento</span>
+          <router-link to="/colaboradores">
+            <li>
+              <div></div>
+              <div>
+                <i class="fi fi-rr-users-alt"></i>
+              </div>
+              <span>Colaboradores</span>
+            </li>
+          </router-link>
+        </ul>
         <ul class="href-menu">
           <span>Ações</span>
 <!--          <router-link to="/gerenciamento">-->

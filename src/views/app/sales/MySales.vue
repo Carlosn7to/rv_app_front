@@ -1,5 +1,4 @@
 <template>
-
   <div id="container">
     <MenuMain/>
     <div id="content">
@@ -173,6 +172,7 @@ export default {
   data () {
     return {
       operator: Cookie.get('operator'),
+      name: Cookie.get('name'),
       filter: {
         year: null,
         month: null,

@@ -6,12 +6,13 @@ import Guard from "../../services/middleware/Auth";
 import MySales from "@/views/app/sales/MySales";
 import SalesAll from "@/views/app/sales/SalesAll";
 import VendorsAll from "@/views/app/sales/VendorsAll";
+import CollaboratorPage from "@/views/app/management/CollaboratorPage";
 
 const routes = [
   {
     path: '/',
     name: 'LoginPage',
-    component: LoginPage
+    component: LoginPage,
   },
   {
     path: '/home',
@@ -35,6 +36,12 @@ const routes = [
     path: '/equipes',
     name: 'VendorsAll',
     component: VendorsAll,
+    beforeEnter: Guard.auth
+  },
+  {
+    path: '/colaboradores',
+    name: 'CollaboratorPage',
+    component: CollaboratorPage,
     beforeEnter: Guard.auth
   }
 ]
