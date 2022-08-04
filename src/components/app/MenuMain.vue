@@ -31,7 +31,7 @@
           </router-link>
         </ul>
 <!--        <ul class="href-menu">-->
-<!--          <span>Supervisão</span>-->
+<!--          <span>Gerenciamento</span>-->
 <!--          <router-link to="/vendas">-->
 <!--            <li>-->
 <!--              <div></div>-->
@@ -50,6 +50,15 @@
 <!--              <span>Equipes</span>-->
 <!--            </li>-->
 <!--          </router-link>-->
+<!--          <router-link to="/colaboradores">-->
+<!--            <li>-->
+<!--              <div></div>-->
+<!--              <div>-->
+<!--                <i class="fi fi-rr-users-alt"></i>-->
+<!--              </div>-->
+<!--              <span>Colaboradores</span>-->
+<!--            </li>-->
+<!--          </router-link>-->
 <!--        </ul>-->
         <ul class="href-menu">
           <span>Ações</span>
@@ -62,7 +71,7 @@
 <!--              <span>Gerenciamento</span>-->
 <!--            </li>-->
 <!--          </router-link>-->
-          <router-link to="/logout">
+          <router-link to="/" @click="logout">
             <li>
               <div></div>
               <div>
@@ -79,6 +88,9 @@
 </template>
 
 <script>
+
+import Cookie from "js-cookie";
+
 export default {
   name: "MenuMain",
   data () {
@@ -93,6 +105,10 @@ export default {
       }else {
         this.menu = false
       }
+    },
+    logout: function () {
+      Cookie.remove('rv_token')
+      Cookie.remove('name')
     }
   }
 }
