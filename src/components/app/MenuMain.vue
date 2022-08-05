@@ -30,7 +30,7 @@
             </li>
           </router-link>
         </ul>
-        <ul class="href-menu">
+        <ul class="href-menu" v-if="permission == 2">
           <span>Gerenciamento</span>
           <router-link to="/colaboradores">
             <li>
@@ -78,6 +78,7 @@ export default {
   data () {
     return {
         menu: true,
+        permission: Cookie.get('permission')
     }
   },
   methods: {
