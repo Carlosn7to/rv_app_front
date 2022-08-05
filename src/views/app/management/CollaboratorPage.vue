@@ -11,7 +11,9 @@
                 <th>ID</th>
                 <th>Nome</th>
                 <th>Função</th>
+                <th>Supervisão</th>
                 <th>Canal</th>
+                <th>Meta atual</th>
                 <th>Ações</th>
               </tr>
             </thead>
@@ -20,10 +22,12 @@
                 <td>{{ collaborator.id }}</td>
                 <td>{{ collaborator.nome }}</td>
                 <td>{{ collaborator.funcao }}</td>
+                <td>{{ collaborator.supervisor }}</td>
                 <td>{{ collaborator.canal }}</td>
+                <td>{{ collaborator.meta }}</td>
                 <td>
                   <div>
-                    <i class="fi fi-rr-edit"></i>
+                    <i class="fi fi-rr-edit" @click="editCollaborator(collaborator.id, collaborator.supervisor, collaborator.canal, collaborator.meta )"></i>
                   </div>
                 </td>
               </tr>
@@ -36,6 +40,15 @@
       </div>
     </div>
   </div>
+  <div id="modal" v-if="page === 2">
+    <EditCollaborator
+      :collaborator="this.collaborator"
+      @close-page="pageTrade(1)"
+      @refresh-data="getCollaborators"
+      @msg="infoMsg"
+    />
+  </div>
+  <InfoMsg :msg="info.msg" type="sucess" v-if="info.status"/>
 </template>
 
 <script>
@@ -43,15 +56,30 @@
 import MenuMain from "@/components/app/MenuMain";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../services/api.ts";
+import EditCollaborator from "@/components/app/management/collaborators/EditCollaborator";
+import InfoMsg from "@/components/app/_aux/InfoMsg";
 
 export default {
   name: "CollaboratorPage",
   components: {
-    MenuMain
+    MenuMain,
+    EditCollaborator,
+    InfoMsg
   },
   data () {
     return {
-      collaborators: {}
+      collaborators: {},
+      collaborator: {
+        id: null,
+        supervisor: null,
+        channel: null,
+        meta: null
+      },
+      page: 1,
+      info: {
+        msg: null,
+        status: false
+      }
     }
   },
   methods: {
@@ -67,6 +95,25 @@ export default {
       }).catch((error) => {
         console.log(error)
       })
+    },
+    editCollaborator: function (id, supervisor, channel, meta) {
+      this.pageTrade(2)
+      this.collaborator.id = id
+      this.collaborator.supervisor = supervisor
+      this.collaborator.channel = channel
+      this.collaborator.meta = meta
+    },
+    pageTrade: function (page) {
+      this.page = page
+    },
+    infoMsg: function (data) {
+      this.info.msg = data.data.msg
+      this.info.type = data.data.type
+      this.info.status = true
+
+      setTimeout(() => {
+        this.info.status = false
+      }, 3000)
     }
   },
   mounted() {
@@ -98,17 +145,17 @@ export default {
         text-align: left;
       }
 
-      th:nth-child(3), td:nth-child(3), th:nth-child(4), td:nth-child(4) {
+      th:nth-child(3), td:nth-child(3), th:nth-child(4), td:nth-child(4), th:nth-child(5), td:nth-child(5), th:nth-child(6), td:nth-child(6) {
         width: 12%;
         text-align: center;
       }
 
-      th:nth-child(5), td:nth-child(5) {
+      th:nth-child(7), td:nth-child(7) {
         text-align: center;
         width: 15%;
       }
 
-      td:nth-child(5) div {
+      td:nth-child(7) div {
         @include flex(row, center, center, 10px);
 
         i {

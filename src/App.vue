@@ -76,6 +76,24 @@ html {
   background: #dad7d7;
 }
 
+/*
+  Super Class
+ */
+
+#modal {
+  @include container(100vw, 100vh, 0, rgba(3,3,3, 0.3));
+  @include flex(row, center, center, 0);
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  #card-modal {
+    @include container(30vw, 50vh, 1vh 0, #FFF);
+    border-radius: 10px;
+    @include expand-animation;
+  }
+}
+
 
 
 #app {
