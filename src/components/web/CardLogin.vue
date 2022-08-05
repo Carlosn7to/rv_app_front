@@ -50,7 +50,7 @@ export default {
           .then((res) => {
             Cookie.set('rv_token', res.data.access_token)
             Cookie.set('name', res.data.name)
-            Cookie.set('permission', res.data.permission)
+            Cookie.set('level', res.data.level)
             this.$router.replace('/minhas-vendas')
           }).catch((error) => {
             console.log(error)
