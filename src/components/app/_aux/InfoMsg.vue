@@ -1,5 +1,5 @@
 <template>
-  <div id="box-msg" :class="{ 'sucess' : type === 'sucess', 'trigger' :  type === 'trigger' }">
+  <div id="box-msg" :class="{ 'success' : type === 'success', 'trigger' :  type === 'trigger' }">
     {{ msg }}
   </div>
 </template>
@@ -45,8 +45,12 @@ export default {
     }
   }
 
-  .sucess {
+  .success {
     background-color: #47CAA2;
+  }
+
+  .trigger {
+    background-color: $red;
   }
 
 </style>

@@ -14,6 +14,7 @@
                 <th>Supervisão</th>
                 <th>Canal</th>
                 <th>Meta atual</th>
+                <th>Status</th>
                 <th>Ações</th>
               </tr>
             </thead>
@@ -25,16 +26,40 @@
                 <td>{{ collaborator.supervisor }}</td>
                 <td>{{ collaborator.canal }}</td>
                 <td>{{ collaborator.meta }}</td>
+                <td>{{ collaborator.status_usuario }}</td>
                 <td>
                   <div>
-                    <i class="fi fi-rr-edit" @click="editCollaborator(collaborator.id, collaborator.supervisor, collaborator.canal, collaborator.meta )"></i>
+                    <i class="fi fi-rr-checkbox"
+                       v-if="collaborator.tem_usuario === 0"
+                       @click="editCollaborator(3,
+                                                collaborator.id,
+                                                collaborator.nome,
+                                                collaborator.supervisor,
+                                                collaborator.canal,
+                                                collaborator.meta,
+                                                collaborator.tem_usuario)"></i>
+                    <i class="fi fi-rr-cross-circle"
+                       v-if="collaborator.tem_usuario === 1"
+                       @click="editCollaborator(3,
+                                                collaborator.id,
+                                                collaborator.nome,
+                                                collaborator.supervisor,
+                                                collaborator.canal,
+                                                collaborator.meta,
+                                                collaborator.tem_usuario)"></i>
+                    <i class="fi fi-rr-edit"
+                       @click="editCollaborator(2,
+                                                collaborator.id,
+                                                collaborator.nome,
+                                                collaborator.supervisor,
+                                                collaborator.canal,
+                                                collaborator.meta,
+                                                collaborator.tem_usuario)"></i>
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
-          <div id="filters">
-          </div>
         </div>
 
       </div>
@@ -48,7 +73,15 @@
       @msg="infoMsg"
     />
   </div>
-  <InfoMsg :msg="info.msg" type="sucess" v-if="info.status"/>
+  <div id="modal" v-if="page === 3">
+    <UserAccess
+      :collaborator="this.collaborator"
+      @close-page="pageTrade(1)"
+      @refresh-data="getCollaborators"
+      @msg="infoMsg"
+    />
+  </div>
+  <InfoMsg :msg="info.msg" :type="info.type" v-if="info.status"/>
 </template>
 
 <script>
@@ -58,22 +91,26 @@ import Cookie from "js-cookie";
 import {AXIOS} from "../../../../services/api.ts";
 import EditCollaborator from "@/components/app/management/collaborators/EditCollaborator";
 import InfoMsg from "@/components/app/_aux/InfoMsg";
+import UserAccess from "@/components/app/management/collaborators/UserAccess";
 
 export default {
   name: "CollaboratorPage",
   components: {
     MenuMain,
     EditCollaborator,
-    InfoMsg
+    InfoMsg,
+    UserAccess
   },
   data () {
     return {
       collaborators: {},
       collaborator: {
         id: null,
+        name: null,
         supervisor: null,
         channel: null,
-        meta: null
+        meta: null,
+        have_user: null
       },
       page: 1,
       info: {
@@ -96,12 +133,14 @@ export default {
         console.log(error)
       })
     },
-    editCollaborator: function (id, supervisor, channel, meta) {
-      this.pageTrade(2)
+    editCollaborator: function (page, id, name, supervisor, channel, meta, have_user) {
+      this.pageTrade(page)
       this.collaborator.id = id
+      this.collaborator.name = name
       this.collaborator.supervisor = supervisor
       this.collaborator.channel = channel
       this.collaborator.meta = meta
+      this.collaborator.have_user = have_user
     },
     pageTrade: function (page) {
       this.page = page
@@ -131,7 +170,7 @@ export default {
 
     table {
       @include table;
-      width: 75%;
+      width: 100%;
       height: 100%;
 
 
@@ -141,21 +180,22 @@ export default {
       }
 
       th:nth-child(2), td:nth-child(2) {
-        width: 40%;
+        width: 20%;
         text-align: left;
       }
 
-      th:nth-child(3), td:nth-child(3), th:nth-child(4), td:nth-child(4), th:nth-child(5), td:nth-child(5), th:nth-child(6), td:nth-child(6) {
+      th:nth-child(3), td:nth-child(3), th:nth-child(4), td:nth-child(4), th:nth-child(5), td:nth-child(5),
+      th:nth-child(6), td:nth-child(6),th:nth-child(7), td:nth-child(7) {
         width: 12%;
         text-align: center;
       }
 
-      th:nth-child(7), td:nth-child(7) {
+      th:nth-child(8), td:nth-child(8) {
         text-align: center;
         width: 15%;
       }
 
-      td:nth-child(7) div {
+      td:nth-child(8) div {
         @include flex(row, center, center, 10px);
 
         i {
@@ -169,14 +209,6 @@ export default {
           }
         }
       }
-
-
-    }
-
-    #filters {
-      @include container(23%, 30%, 1vh 1vw, #FFF);
-      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-      border-radius: 10px;
     }
   }
 

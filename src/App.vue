@@ -92,10 +92,19 @@ html {
     background-color: #fff;
     border-radius: 10px;
     @include expand-animation;
+
   }
 }
 
+#loading {
+  @include flex(column, center, center, 0);
 
+  span {
+    font-size: 1.4rem !important;
+    color: $text;
+    font-weight: 600 !important;
+  }
+}
 
 #app {
   width: 100vw;

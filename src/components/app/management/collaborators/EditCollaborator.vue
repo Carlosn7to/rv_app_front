@@ -81,7 +81,7 @@ export default {
       }).then((res) => {
 
         if(res.data.status === 1) {
-          this.refreshData(res.data.msg, 'sucess')
+          this.refreshData(res.data.msg, 'success')
         } else {
           alert(res.data.msg)
         }
