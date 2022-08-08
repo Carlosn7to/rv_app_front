@@ -174,7 +174,8 @@ export default {
     }
 
     #filters {
-      @include container(23%, 100%, 1vh 1vw, $background);
+      @include container(23%, 30%, 1vh 1vw, #FFF);
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
       border-radius: 10px;
     }
   }

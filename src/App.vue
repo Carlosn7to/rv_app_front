@@ -88,7 +88,8 @@ html {
   left: 0;
 
   #card-modal {
-    @include container(30vw, 50vh, 1vh 0, #FFF);
+    padding: 1vh 0;
+    background-color: #fff;
     border-radius: 10px;
     @include expand-animation;
   }

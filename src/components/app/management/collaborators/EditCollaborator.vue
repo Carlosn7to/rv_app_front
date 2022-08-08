@@ -99,12 +99,11 @@ export default {
   #modal {
     #card-modal {
       width: 30vw;
-      height: 60vh;
+      padding-bottom: 4vh ;
 
       #content-card {
         @include container(100%, 90%, 1vh 2vw, transparente);
         width: 100%;
-        height: 90%;
 
         h6 {
           text-align: center;
