@@ -52,7 +52,7 @@ export default {
   },
   components: {
     CloseButton,
-    LoadingMain
+    LoadingMain,
   },
   data () {
     return {

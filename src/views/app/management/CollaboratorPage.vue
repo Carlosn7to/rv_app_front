@@ -55,6 +55,14 @@
                                                 collaborator.canal,
                                                 collaborator.meta,
                                                 collaborator.tem_usuario)"></i>
+                    <i class="fi fi-rr-dashboard"
+                      @click="editCollaborator(4,
+                                                collaborator.id,
+                                                collaborator.nome,
+                                                collaborator.supervisor,
+                                                collaborator.canal,
+                                                collaborator.meta,
+                                                collaborator.tem_usuario)"></i>
                   </div>
                 </td>
               </tr>
@@ -81,7 +89,14 @@
       @msg="infoMsg"
     />
   </div>
+  <div id="modal" v-if="page === 4">
+    <SalesDashboard
+      :collaborator="collaborator"
+      @close-page="pageTrade(1)"
+    />
+  </div>
   <InfoMsg :msg="info.msg" :type="info.type" v-if="info.status"/>
+
 </template>
 
 <script>
@@ -92,6 +107,7 @@ import {AXIOS} from "../../../../services/api.ts";
 import EditCollaborator from "@/components/app/management/collaborators/EditCollaborator";
 import InfoMsg from "@/components/app/_aux/InfoMsg";
 import UserAccess from "@/components/app/management/collaborators/UserAccess";
+import SalesDashboard from "@/components/app/sales/SalesDashboard";
 
 export default {
   name: "CollaboratorPage",
@@ -99,7 +115,8 @@ export default {
     MenuMain,
     EditCollaborator,
     InfoMsg,
-    UserAccess
+    UserAccess,
+    SalesDashboard
   },
   data () {
     return {

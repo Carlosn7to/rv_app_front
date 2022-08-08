@@ -271,6 +271,7 @@ export default {
 
 <style scoped lang="scss">
 
+
 #content-page {
   background: transparent;
 

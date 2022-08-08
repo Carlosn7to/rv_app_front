@@ -42,7 +42,10 @@ const routes = [
     path: '/colaboradores',
     name: 'CollaboratorPage',
     component: CollaboratorPage,
-    beforeEnter: Guard.auth
+    beforeEnter: [
+      Guard.admin,
+      Guard.auth
+    ]
   }
 ]
 

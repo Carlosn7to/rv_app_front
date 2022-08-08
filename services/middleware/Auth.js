@@ -21,5 +21,15 @@ export default {
             }).catch(() => {
                 return next({ path: '/'})
         })
+    },
+    admin(to, from, next) {
+        const level = Cookie.get('level')
+
+        if(level === '2') {
+            return next()
+        }
+
+        return next({ path: '/'})
+
     }
 }
