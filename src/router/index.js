@@ -7,6 +7,7 @@ import MySales from "@/views/app/sales/MySales";
 import SalesAll from "@/views/app/sales/SalesAll";
 import VendorsAll from "@/views/app/sales/VendorsAll";
 import CollaboratorPage from "@/views/app/management/CollaboratorPage";
+import ReportFinancial from "@/components/app/reports/ReportFinancial";
 
 const routes = [
   {
@@ -44,6 +45,15 @@ const routes = [
     component: CollaboratorPage,
     beforeEnter: [
       Guard.admin,
+      Guard.auth
+    ]
+  },
+  {
+    path: '/extrato-financeiro',
+    name: 'ReportFinancial',
+    component: ReportFinancial,
+    beforeEnter: [
+      Guard.report,
       Guard.auth
     ]
   }

@@ -57,6 +57,11 @@ export default {
         password: this.password
       }
 
+      this.loading = true
+      this.msg.type = ''
+      this.msg.value = ''
+
+
       AXIOS({
         method: "POST",
         url: "login",
@@ -67,23 +72,25 @@ export default {
         data: JSON.stringify(payload)
       })
           .then((res) => {
-            this.loading = true
             Cookie.set('rv_token', res.data.access_token)
             Cookie.set('name', res.data.name)
             Cookie.set('level', res.data.level)
             this.$router.replace('/minhas-vendas')
           }).catch((error) => {
+
+            this.loading = false
+
             switch (error.response.status) {
-              case 422:
-                this.msg.type = 'trigger'
-                this.msg.value = 'Preencha todos os campos!'
-              break
-              case 401:
-                this.msg.type = 'trigger'
-                this.msg.value = 'Usuário ou senha incorretos!'
-              break
-            }
-      })
+                  case 422:
+                    this.msg.type = 'trigger'
+                    this.msg.value = 'Preencha todos os campos!'
+                  break
+                  case 401:
+                    this.msg.type = 'trigger'
+                    this.msg.value = 'Usuário ou senha incorretos!'
+                  break
+                }
+          })
 
     }
   },

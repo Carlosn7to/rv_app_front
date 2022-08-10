@@ -31,5 +31,15 @@ export default {
 
         return next({ path: '/'})
 
+    },
+    report(to, from, next) {
+        const level = Cookie.get('level')
+
+        if(level === '2' || level === '3') {
+            return next()
+        }
+
+        return next({ path: '/'})
+
     }
 }

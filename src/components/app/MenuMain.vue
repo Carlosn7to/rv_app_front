@@ -42,6 +42,18 @@
             </li>
           </router-link>
         </ul>
+        <ul class="href-menu" v-if="this.level === '2' || this.level === '3'">
+          <span>Relatórios</span>
+          <router-link to="/extrato-financeiro">
+            <li>
+              <div></div>
+              <div>
+                <i class="fi fi-rr-usd-square"></i>
+              </div>
+              <span>Extrato Financeiro</span>
+            </li>
+          </router-link>
+        </ul>
         <ul class="href-menu">
           <span>Ações</span>
 <!--          <router-link to="/gerenciamento">-->
