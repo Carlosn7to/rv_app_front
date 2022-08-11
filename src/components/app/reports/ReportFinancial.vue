@@ -15,7 +15,7 @@
                 <th>% Atingido</th>
                 <th>Cancelados</th>
                 <th>Estrelas</th>
-                <th>Preço da estrela</th>
+                <th>Valor da estrela</th>
                 <th>Comissão</th>
                 <th>Ações</th>
               </tr>
@@ -23,14 +23,44 @@
             <tbody>
               <tr v-for="sup in supervisors" :key="sup.name">
                 <td>{{ sup.channel }}</td>
-                <td>{{ sup.name }}</td>
-                <td>{{ sup.qntd_plans }}</td>
+                <td><b>{{ sup.name }}</b></td>
+                <td>
+                  <span :class="{ 'success' : sup.percent_meta > 70 && sup.price_stars > 0,
+                                  'failure' : sup.percent_meta > 40 && sup.price_stars === 0,
+                                  'ext-success' : sup.percent_meta > 90 && sup.price_stars > 0}">
+                    <b>{{ sup.qntd_plans }}</b>
+                  </span>
+                </td>
                 <td>{{ sup.meta }}</td>
-                <td>{{ sup.percent_meta }}</td>
+                <td>
+                  <span :class="{ 'success' : sup.percent_meta > 70 && sup.price_stars > 0,
+                                  'failure' : sup.percent_meta > 40 && sup.price_stars === 0,
+                                  'ext-success' : sup.percent_meta > 90 && sup.price_stars > 0}">
+                    <b>{{ sup.percent_meta }}%</b>
+                  </span>
+                </td>
                 <td>{{ sup.cancelled }}</td>
-                <td>{{ sup.stars }}</td>
-                <td>R${{ sup.price_stars }}</td>
-                <td>R${{ sup.comission }}</td>
+                <td>
+                  <span :class="{ 'stars' : sup.price_stars > 0 }">
+                    <b>
+                      {{ sup.stars }}
+                    </b>
+                  </span>
+                </td>
+                <td>
+                  <span :class="{ 'stars' : sup.price_stars > 0 }">
+                    <b>
+                      R${{ sup.price_stars }}
+                    </b>
+                  </span>
+                </td>
+                <td>
+                  <span :class="{ 'success' : sup.percent_meta > 60 && sup.price_stars > 0,
+                                  'failure' : sup.percent_meta > 40 && sup.price_stars === 0,
+                                  'ext-success' : sup.percent_meta > 90 && sup.price_stars > 0}">
+                    <b>R${{ sup.comission }}</b>
+                  </span>
+                </td>
                 <td><i class="fi fi-rr-users-alt"></i></td>
               </tr>
             </tbody>
@@ -97,6 +127,47 @@ export default {
 
           th, td {
             text-align: center;
+          }
+
+          td {
+            font-weight: 400 !important;
+            color: $text-menu !important;
+
+            .span {
+              padding: 3px 15px;
+              color: #fff;
+              border-radius: 3px;
+            }
+
+            .success {
+              @extend .span;
+              background-color: #93ec90;
+            }
+
+            .sales {
+              @extend .span;
+              background-color: #909dec;
+            }
+
+            .stars {
+              @extend .span;
+              background-color: rgba(254, 202, 29, 0.71);
+            }
+
+            .failure {
+              @extend .span;
+              background-color: #f89090;
+            }
+
+            .ext-failure {
+              @extend .span;
+              background-color: #f34141;
+            }
+
+            .ext-success {
+              @extend .span;
+              background-color: #3ce03d;
+            }
           }
 
           th:nth-child(2), td:nth-child(2) {
