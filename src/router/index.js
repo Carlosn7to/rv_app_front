@@ -8,6 +8,7 @@ import SalesAll from "@/views/app/sales/SalesAll";
 import VendorsAll from "@/views/app/sales/VendorsAll";
 import CollaboratorPage from "@/views/app/management/CollaboratorPage";
 import ReportFinancial from "@/components/app/reports/ReportFinancial";
+import NoAccess from "@/views/app/NoAccess";
 
 const routes = [
   {
@@ -56,6 +57,11 @@ const routes = [
       Guard.report,
       Guard.auth
     ]
+  },
+  {
+    path: '/sem-acesso',
+    name: 'NoAccess',
+    component: NoAccess,
   }
 ]
 

@@ -29,17 +29,17 @@ export default {
             return next()
         }
 
-        return next({ path: '/'})
+        return next({ path: '/sem-acesso'})
 
     },
     report(to, from, next) {
         const level = Cookie.get('level')
 
-        if(level === '2' || level === '3') {
+        if(level === '3') {
             return next()
         }
 
-        return next({ path: '/'})
+        return next({ path: '/sem-acesso'})
 
     }
 }
