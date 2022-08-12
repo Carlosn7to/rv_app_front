@@ -280,7 +280,7 @@ export default {
   #sales {
     width: 100%;
     height: 100%;
-    @include flex(column, initial, initial, 20px);
+    @include flex(column, flex-start, initial, 20px);
 
     #dashboards {
       height: 12%;
@@ -315,7 +315,7 @@ export default {
     }
 
     .content-sales {
-      @include flex(row, initial, initial, 20px);
+      @include flex(row, flex-start, initial, 20px);
       width: 100%;
       height: 70%;
 
@@ -343,10 +343,10 @@ export default {
           }
 
           .info-projection {
-            @include flex(column, initial, initial, 10px);
+            @include flex(column, flex-start, initial, 10px);
 
             span {
-              @include flex(row, initial, center, 5px);
+              @include flex(row, flex-start, center, 5px);
               font-size: 1.6rem;
               border-bottom: 4px solid $border;
               padding-bottom: 10px;

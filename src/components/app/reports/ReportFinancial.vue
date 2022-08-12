@@ -14,6 +14,7 @@
                 <th>Meta</th>
                 <th>% Atingido</th>
                 <th>Cancelados D -7</th>
+                <th>SVAS - Estrelas</th>
                 <th>Estrelas</th>
                 <th>Valor da estrela</th>
                 <th>Deflator</th>
@@ -41,6 +42,7 @@
                   </span>
                 </td>
                 <td>{{ sup.cancelled }}</td>
+                <td>{{ sup.svas }}</td>
                 <td>
                   <span :class="{ 'stars' : sup.price_stars > 0 }">
                     <b>
@@ -77,7 +79,10 @@
       </div>
     </div>
     <div id="content" v-if="page === 'vendors'">
-      <h1 id="title-page">Extrato financeiro - {{ supervisor.name }}</h1>
+      <div class="title">
+        <i class="fi fi-sr-angle-left" @click="getRvSupervisors"></i>
+        <h1 id="title-page">Extrato financeiro - {{ supervisor.name }}</h1>
+      </div>
       <div id="content-page">
         <div id="list-collaborators">
           <table>
@@ -89,6 +94,7 @@
               <th>Meta</th>
               <th>% Atingido</th>
               <th>Cancelados</th>
+              <th>SVAS - Estrelas</th>
               <th>Estrelas</th>
               <th>Valor da estrela</th>
               <th>Deflator</th>
@@ -115,6 +121,7 @@
                   </span>
               </td>
               <td>{{ sup.cancelled }}</td>
+              <td>{{ sup.svas }}</td>
               <td>
                   <span :class="{ 'stars' : sup.price_stars > 0 }">
                     <b>
@@ -205,7 +212,6 @@ export default {
         }
       }).then((res) => {
         this.supervisor.vendors = res.data
-        console.log(res.data)
       })
 
     }
@@ -220,6 +226,21 @@ export default {
 
 #container {
   #content {
+
+    .title {
+      @include flex(row, flex-start, center, 5px);
+
+      i {
+        font-size: 2rem;
+        color: $text;
+        @include transtion;
+        cursor: pointer;
+
+        &:hover {
+          color: $age-orange;
+        }
+      }
+    }
     #content-page {
       #list-collaborators {
         @include container(100%, 95%, 2vh 1vw, #fff);
@@ -278,13 +299,16 @@ export default {
           th:nth-child(2), td:nth-child(2) {
             width: 20%;
             text-align: left;
+              b {
+                user-select: text !important;
+              }
           }
 
-          th:nth-child(5), td:nth-child(5), th:nth-child(10), td:nth-child(10) {
+          th:nth-child(5), td:nth-child(5), th:nth-child(11), td:nth-child(11) {
             width: 10%;
           }
 
-          td:nth-child(11) {
+          td:nth-child(12) {
             i {
               font-size: 1.6rem;
               cursor: pointer;
