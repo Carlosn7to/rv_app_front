@@ -29,7 +29,9 @@
                 <td>
                   <span :class="{ 'success' : sup.percent_meta > 70 && sup.price_stars > 0,
                                   'failure' : sup.percent_meta > 40 && sup.price_stars === 0,
-                                  'ext-success' : sup.percent_meta > 90 && sup.price_stars > 0}">
+                                  'ext-success' : sup.percent_meta > 90 && sup.price_stars > 0}"
+                        @click="getSales(sup.name)"
+                        style="cursor: pointer">
                     <b>{{ sup.qntd_plans }}</b>
                   </span>
                 </td>
@@ -108,7 +110,8 @@
               <td>
                   <span :class="{ 'success' : sup.percent_meta > 70 && sup.price_stars > 0,
                                   'failure' : sup.percent_meta > 40 && sup.price_stars === 0,
-                                  'ext-success' : sup.percent_meta > 90 && sup.price_stars > 0}">
+                                  'ext-success' : sup.percent_meta > 90 && sup.price_stars > 0}"
+                        @click="getSales(sup.name)">
                     <b>{{ sup.qntd_plans }}</b>
                   </span>
               </td>
@@ -155,6 +158,33 @@
       </div>
     </div>
   </div>
+  <div id="modal" v-if="modal.status === true">
+    <div id="card-modal">
+      <CloseButton
+        @close-page="closeModal()"
+      />
+      <div id="content-card">
+        <div id="items-dashboard">
+          <div class="item-dashboard">
+            <h6>Vendas</h6>
+            <span>50</span>
+          </div>
+          <div class="item-dashboard">
+
+          </div>
+          <div class="item-dashboard">
+
+          </div>
+          <div class="item-dashboard">
+
+          </div>
+          <div class="item-dashboard">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -163,11 +193,13 @@
 import MenuMain from "@/components/app/MenuMain";
 import {AXIOS} from "../../../../services/api.ts";
 import Cookie from "js-cookie";
+import CloseButton from "@/components/app/_aux/CloseButton";
 
 export default {
   name: "ReportFinancial",
   components: {
-    MenuMain
+    MenuMain,
+    CloseButton
   },
   data () {
     return {
@@ -176,6 +208,10 @@ export default {
       supervisor: {
         name: '',
         vendors: {}
+      },
+      modal: {
+        status: true,
+        name: 'Multi Canal de Vendas'
       }
     }
   },
@@ -214,6 +250,15 @@ export default {
         this.supervisor.vendors = res.data
       })
 
+    },
+    getSales: function (name) {
+      this.modal.status = true
+
+      console.log(name)
+
+    },
+    closeModal: function () {
+      this.modal.status = false
     }
   },
   mounted() {
@@ -318,6 +363,50 @@ export default {
                 color: $age-orange;
               }
             }
+          }
+        }
+      }
+    }
+  }
+}
+
+#modal {
+  #card-modal {
+    width: 90vw;
+    height: 95vh;
+
+    #content-card {
+      width: 100%;
+      height: 90%;
+      padding: 10px 2vw;
+
+      #items-dashboard {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 10px;
+
+        .item-dashboard {
+          width: calc(100% / 6);
+          border-radius: 5px;
+          height: 15vh;
+          box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          text-align: center;
+          padding: 2vh 2vw;
+
+          h6 {
+            font-size: 1.4rem;
+            color: $text;
+          }
+
+          span {
+            font-size: 2.4rem;
+            color: $text-menu;
           }
         }
       }
