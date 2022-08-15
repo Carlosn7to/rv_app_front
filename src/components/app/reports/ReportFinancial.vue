@@ -30,7 +30,14 @@
                   <span :class="{ 'success' : sup.percent_meta > 70 && sup.price_stars > 0,
                                   'failure' : sup.percent_meta > 40 && sup.price_stars === 0,
                                   'ext-success' : sup.percent_meta > 90 && sup.price_stars > 0}"
-                        @click="getSales(sup.name)"
+                        @click="getSales(sup.name,
+                                          sup.qntd_plans,
+                                          sup.meta,
+                                          sup.percent_meta,
+                                          sup.stars,
+                                          sup.price_stars,
+                                          sup.deflactor,
+                                          sup.comission)"
                         style="cursor: pointer">
                     <b>{{ sup.qntd_plans }}</b>
                   </span>
@@ -111,7 +118,15 @@
                   <span :class="{ 'success' : sup.percent_meta > 70 && sup.price_stars > 0,
                                   'failure' : sup.percent_meta > 40 && sup.price_stars === 0,
                                   'ext-success' : sup.percent_meta > 90 && sup.price_stars > 0}"
-                        @click="getSales(sup.name)">
+                        @click="getSalesVendors(sup.name,
+                                          sup.qntd_plans,
+                                          sup.meta,
+                                          sup.percent_meta,
+                                          sup.stars,
+                                          sup.price_stars,
+                                          sup.deflactor,
+                                          sup.comission)"
+                        style="cursor: pointer">
                     <b>{{ sup.qntd_plans }}</b>
                   </span>
               </td>
@@ -164,21 +179,76 @@
         @close-page="closeModal()"
       />
       <div id="content-card">
+        <h6>{{ modal.name }}</h6>
         <div id="items-dashboard">
           <div class="item-dashboard">
             <h6>Vendas</h6>
-            <span>50</span>
+            <span>{{ modal.details.sales }}</span>
           </div>
           <div class="item-dashboard">
-
+            <h6>Meta</h6>
+            <span>{{ modal.details.meta }}</span>
           </div>
           <div class="item-dashboard">
-
+            <h6>Porcentagem meta</h6>
+            <span>{{ modal.details.percent_meta }}%</span>
           </div>
           <div class="item-dashboard">
-
+            <h6>Estrelas</h6>
+            <span>{{ modal.details.stars }}</span>
           </div>
           <div class="item-dashboard">
+            <h6>Valor da estrela</h6>
+            <span>R${{ modal.details.price_stars }}</span>
+          </div>
+          <div class="item-dashboard">
+            <h6>Deflator</h6>
+            <span>{{ modal.details.deflactor }}%</span>
+          </div>
+          <div class="item-dashboard">
+            <h6>Comissão</h6>
+            <span>R${{ modal.details.comission }}</span>
+          </div>
+        </div>
+        <div id="panel-dashboard">
+          <div class="panel">
+            <h6>Planos vendidos</h6>
+            <p v-for="sale in modal.sales" :key="sale.plano">
+              {{ sale.plano }}- <b>{{ sale.qntd }} venda(s)</b>
+            </p>
+          </div>
+          <div class="panel">
+            <h6>Tabela de estrelas</h6>
+            <p>
+              Plano residencial 120Mbps: <b>5 estrelas</b>
+            </p>
+            <p>
+              Plano residencial 240Mbps: <b>9 estrelas</b>
+            </p>
+            <p>
+              Plano residencial 400Mbps: <b>15 estrelas</b>
+            </p>
+            <p>
+              Plano residencial 480Mbps: <b>15 estrelas</b>
+            </p>
+            <p>
+              Plano residencial 720Mbps: <b>25 estrelas</b>
+            </p>
+            <p>
+              Plano residencial 740Mbps: <b>25 estrelas</b>
+            </p>
+            <p>
+              Plano residencial 960Mbps: <b>35 estrelas</b>
+            </p>
+            <p>
+              Plano empresarial 600Mbps: <b>9 estrelas</b>
+            </p>
+            <p>
+              Plano empresarial 800Mbps: <b>17 estrelas</b>
+            </p>
+            <p>
+              Plano empresarial 1Gbps: <b>35 estrelas</b>
+            </p>
 
           </div>
         </div>
@@ -210,8 +280,18 @@ export default {
         vendors: {}
       },
       modal: {
-        status: true,
-        name: 'Multi Canal de Vendas'
+        status: false,
+        name: '',
+        details: {
+          sales: null,
+          meta: null,
+          percent_meta: null,
+          stars: null,
+          price_stars: null,
+          deflactor: null,
+          comission: null,
+        },
+        sales: {}
       }
     }
   },
@@ -251,10 +331,54 @@ export default {
       })
 
     },
-    getSales: function (name) {
+    getSales: function (name, sales, meta, percent, stars, price, deflactor, comission) {
       this.modal.status = true
+      this.modal.name = name
+      this.modal.details.sales = sales
+      this.modal.details.meta = meta
+      this.modal.details.percent_meta = percent
+      this.modal.details.stars = stars
+      this.modal.details.price_stars = price
+      this.modal.details.deflactor = deflactor
+      this.modal.details.comission = comission
 
-      console.log(name)
+      AXIOS({
+        method: 'GET',
+        url: 'rv/supervisors/sales',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('rv_token')
+        },
+        params: {
+          supervisor: name
+        }
+      }).then((res) => {
+        this.modal.sales = res.data
+      })
+
+    },
+    getSalesVendors: function (name, sales, meta, percent, stars, price, deflactor, comission) {
+      this.modal.status = true
+      this.modal.name = name
+      this.modal.details.sales = sales
+      this.modal.details.meta = meta
+      this.modal.details.percent_meta = percent
+      this.modal.details.stars = stars
+      this.modal.details.price_stars = price
+      this.modal.details.deflactor = deflactor
+      this.modal.details.comission = comission
+
+      AXIOS({
+        method: 'GET',
+        url: 'rv/vendors/sales',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('rv_token')
+        },
+        params: {
+          vendor: name
+        }
+      }).then((res) => {
+        this.modal.sales = res.data
+      })
 
     },
     closeModal: function () {
@@ -380,34 +504,73 @@ export default {
       height: 90%;
       padding: 10px 2vw;
 
+      h6 {
+        font-size: 2rem;
+      }
+
       #items-dashboard {
         display: flex;
         align-items: center;
-        justify-content: center;
         flex-wrap: wrap;
         gap: 20px;
         padding: 10px;
 
         .item-dashboard {
-          width: calc(100% / 6);
+          width: calc(100% / 8);
           border-radius: 5px;
-          height: 15vh;
           box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
           display: flex;
           flex-direction: column;
           gap: 10px;
           text-align: center;
-          padding: 2vh 2vw;
+          padding: 1.2vh 1vw;
 
           h6 {
-            font-size: 1.4rem;
+            font-size: 1rem;
             color: $text;
           }
 
           span {
-            font-size: 2.4rem;
+            font-size: 2rem;
             color: $text-menu;
           }
+        }
+      }
+
+      #panel-dashboard {
+        width: 100%;
+        height: 80%;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 10px;
+
+
+        .panel {
+          box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+          width: calc(100% / 3);
+          height: 100%;
+          border-radius: 5px;
+          overflow-y: auto !important;
+
+          h6 {
+            text-align: center;
+            padding: 1vh 0;
+            font-size: 2rem;
+            color: $text;
+          }
+
+          p {
+            font-size: 1rem;
+            color: $text;
+            padding: 1vh 1vw;
+            border-bottom: 1px solid #cccccc60;
+
+            b {
+              font-size: 1rem;
+            }
+          }
+
         }
       }
     }
