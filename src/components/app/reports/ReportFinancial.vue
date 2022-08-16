@@ -220,7 +220,7 @@
           <div class="panel">
             <h6>Tabela de estrelas</h6>
             <p>
-              Plano residencial 120Mbps: <b>5 estrelas</b>
+              Plano residencial 120Mbps: <b>5  estrelas</b>
             </p>
             <p>
               Plano residencial 240Mbps: <b>9 estrelas</b>
